@@ -1,0 +1,103 @@
+dataset: 'openpose'  # 数据集类型，指定使用OpenPose格式的数据
+joints_to_ign:       # 需要忽略的关键点索引列表
+    - 1              # 忽略索引为1的关键点
+    - 9              # 忽略索引为9的关键点
+    - 12             # 忽略索引为12的关键点
+data_folder: "data"  # 输入数据所在的文件夹路径
+output_folder: 'smplx_debug'  # 输出调试信息的文件夹路径
+prior_folder: 'priors'        # 先验知识文件所在的文件夹路径
+model_folder: 'models'        # 模型文件所在的文件夹路径
+result_folder: 'results'      # 最终结果保存的文件夹路径
+gender: "neutral"             # 模型性别设置，"neutral"表示中性
+model_type: 'smplx'           # 使用的模型类型为SMPLX
+# Flag for using the GPU
+use_cuda: True                # 是否使用CUDA(GPU)加速计算
+float_dtype: "float32"        # 浮点数精度设置为32位
+use_joints_conf: True         # 是否使用关键点置信度信息
+use_pca: True                 # 是否使用PCA降维技术
+use_hands: True               # 是否优化手部姿态
+use_face: True                # 是否优化面部表情
+flat_hand_mean: False         # 是否使用平展的手部均值姿势
+# The number of mixture components for the pose prior
+num_gaussians: 8              # 姿态先验中混合高斯分布的组件数量
+body_prior_type: 'l2'         # 身体姿态先验类型为L2正则化
+left_hand_prior_type: l2      # 左手姿态先验类型为L2正则化
+right_hand_prior_type: l2     # 右手姿态先验类型为L2正则化
+jaw_prior_type: 'l2'          # 下颌姿态先验类型为L2正则化
+focal_length: 5000            # 相机焦距参数
+num_pca_comps: 12             # PCA成分的数量
+# The constant for the robust loss function
+rho: 100                      # 鲁棒损失函数中的常数参数
+interpenetration: False       # 是否允许身体部件相互穿透
+df_cone_height: 0.0001        # 距离场锥体高度参数
+# Upper arms and Spine 2
+# Neck and jaw
+ign_part_pairs: ["9,16", "9,17", "6,16", "6,17", "1,2", "12,22"]  # 忽略碰撞检测的身体部件对
+penalize_outside: True        # 是否惩罚超出边界的情况
+max_collisions: 128           # 最大碰撞检测数量
+# LBFGS with line search
+optim_type: 'lbfgsls'         # 优化器类型为带线搜索的LBFGS
+ftol: 1e-9                    # 函数值收敛容差
+gtol: 1e-9                    # 梯度收敛容差
+lr: 1.0                       # 学习率
+# Max number of optimization iterations
+maxiters: 30                  # 最大优化迭代次数
+interactive: True             # 是否启用交互模式
+visualize: True              # 是否可视化优化过程
+# Relative change in loss value
+body_pose_prior_weights:      # 各阶段身体姿态先验权重
+    - 4.04e2                  # 第一阶段权重
+    - 4.04e2                  # 第二阶段权重
+    - 57.4e0                  # 第三阶段权重
+    - 4.78e0                  # 第四阶段权重
+    - 4.78e0                  # 第五阶段权重
+coll_loss_weights:            # 各阶段碰撞损失权重
+    - 0.0                     # 第一阶段权重
+    - 0.0                     # 第二阶段权重
+    - 0.0                     # 第三阶段权重
+    - 0.01                    # 第四阶段权重
+    - 1.0                     # 第五阶段权重
+shape_weights:                # 各阶段形状参数权重
+    - 1.0e2                   # 第一阶段权重
+    - 5.0e1                   # 第二阶段权重
+    - 1.0e1                   # 第三阶段权重
+    - 0.5e1                   # 第四阶段权重
+    - 0.5e1                   # 第五阶段权重
+expr_weights:                 # 各阶段表情参数权重
+    - 1.0e2                   # 第一阶段权重
+    - 5.0e1                   # 第二阶段权重
+    - 1.0e1                   # 第三阶段权重
+    - 0.5e1                   # 第四阶段权重
+    - 0.5e1                   # 第五阶段权重
+hand_pose_prior_weights:      # 各阶段手部姿态先验权重
+    - 4.04e2                  # 第一阶段权重
+    - 4.04e2                  # 第二阶段权重
+    - 57.4                    # 第三阶段权重
+    - 4.78                    # 第四阶段权重
+    - 4.78                    # 第五阶段权重
+jaw_pose_prior_weights:       # 各阶段下颌姿态先验权重(多阶段)
+    # First phase
+    - 4.04e03,4.04e04,4.04e04 # 第一阶段三个子阶段权重
+    # Second phase
+    - 4.04e03,4.04e04,4.04e04 # 第二阶段三个子阶段权重
+    # Third phase
+    - 574,5740,5740           # 第三阶段三个子阶段权重
+    # Fourth phase
+    - 47.8,478,478            # 第四阶段三个子阶段权重
+    # Fifth phase
+    - 47.8,478,478            # 第五阶段三个子阶段权重
+hand_joints_weights:          # 各阶段手部关节权重
+    - 0.0                     # 第一阶段权重
+    - 0.0                     # 第二阶段权重
+    - 0.0                     # 第三阶段权重
+    - 0.1                     # 第四阶段权重
+    - 2.0                     # 第五阶段权重
+face_joints_weights:          # 各阶段面部关节权重
+    - 0.0                     # 第一阶段权重
+    - 0.0                     # 第二阶段权重
+    - 0.0                     # 第三阶段权重
+    - 0.0                     # 第四阶段权重
+    - 2.0                     # 第五阶段权重
+
+use_vposer: True              # 是否使用VPoser编码器
+vposer_ckpt: "vposer"         # VPoser模型检查点路径
